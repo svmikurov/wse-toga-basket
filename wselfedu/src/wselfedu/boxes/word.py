@@ -45,16 +45,16 @@ class WordBox(toga.Box):
         )
 
         # Navigation box is split into two parts.
-        split_box = toga.Box()
+        split_navigation_box = toga.Box()
         left_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
         right_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
 
         # Word box widget DOM.
         self.add(
-            split_box,
+            split_navigation_box,
             self.word_table,
         )
-        split_box.add(left_box, right_box)
+        split_navigation_box.add(left_box, right_box)
         left_box.add(btn_goto_main_box, btn_update)
         right_box.add(btn_add, btn_delete)
 
