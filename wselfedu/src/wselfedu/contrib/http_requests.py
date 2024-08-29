@@ -22,3 +22,18 @@ def send_get_request(path: str, url: str | None = None) -> list[dict]:
     with httpx.Client(auth=auth) as client:
         response = client.get(url=request_url)
     return response.json()
+
+
+def send_post_request(
+    path: str,
+    url: str | None = None,
+    payload: dict | None = None,
+) -> dict:  # TO DO: Check return typing
+    """Send a POST request."""
+    request_url = url or urljoin(HOST_API, path)
+    if not payload:
+        raise AttributeError('Введите данные для отправки запроса')
+
+    with httpx.Client(auth=auth) as client:
+        response = client.post(url=request_url, json=payload)
+    return response.json()

@@ -2,8 +2,8 @@
 
 import toga
 from toga.style import Pack
-from travertino.constants import COLUMN
 
+from wselfedu.boxes.base import ColumnFlexBox
 from wselfedu.contrib.http_requests import send_get_request
 
 WORDS_PATH = 'api/v1/word/'
@@ -44,19 +44,25 @@ class WordBox(toga.Box):
             style=Pack(flex=1),
         )
 
-        # Navigation box is split into two parts.
-        split_navigation_box = toga.Box()
-        left_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
-        right_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
+        # Navigation box split into pairs.
+        pair_split_box = toga.Box()
+        left_split_box = ColumnFlexBox()
+        right_split_box = ColumnFlexBox()
 
         # Word box widget DOM.
         self.add(
-            split_navigation_box,
+            pair_split_box,
             self.word_table,
         )
-        split_navigation_box.add(left_box, right_box)
-        left_box.add(btn_goto_main_box, btn_update)
-        right_box.add(btn_add, btn_delete)
+        pair_split_box.add(left_split_box, right_split_box)
+        left_split_box.add(
+            btn_goto_main_box,
+            btn_update,
+        )
+        right_split_box.add(
+            btn_add,
+            btn_delete,
+        )
 
     # Button callback functions.
     def add_word_handler(self, widget: toga.Widget) -> None:

@@ -4,6 +4,7 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN
 
+from wselfedu.boxes.base import ColumnFlexBox
 from wselfedu.boxes.user import UserBox
 from wselfedu.boxes.word import WordBox
 
@@ -29,29 +30,29 @@ class WebSelfEducation(toga.App):
         # Main box widgets.
         btn_goto_word_box = toga.Button(
             'Словарь',
-            on_press=self.goto_word_box_handler,
+            on_press=self.goto_word_box_btn_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_box = toga.Button(
             'Профиль',
-            on_press=self.goto_user_box_handler,
+            on_press=self.goto_user_box_btn_handler,
             style=Pack(flex=1),
         )
 
-        # Navigation box is split into two parts.
-        split_navigation_box = toga.Box()
-        left_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
-        right_box = toga.Box(style=Pack(flex=1, direction=COLUMN))
+        # Navigation box split into pairs.
+        pair_split_box = toga.Box()
+        left_split_box = ColumnFlexBox()
+        right_split_box = ColumnFlexBox()
 
         # Main box widget DOM.
         self.main_box.add(
-            split_navigation_box,
+            pair_split_box,
         )
-        split_navigation_box.add(left_box, right_box)
-        left_box.add(
+        pair_split_box.add(left_split_box, right_split_box)
+        left_split_box.add(
             btn_goto_user_box,
         )
-        right_box.add(
+        right_split_box.add(
             btn_goto_word_box,
         )
 
@@ -60,18 +61,18 @@ class WebSelfEducation(toga.App):
         self.main_window.content = self.main_box
         self.main_window.show()
 
-    def goto_main_box_handler(self, widget: toga.Widget) -> None:
+    def goto_main_box_btn_handler(self, widget: toga.Widget) -> None:
         """Go to Main box, button handler."""
         self.main_window.content = self.main_box
 
-    def goto_word_box_handler(self, widget: toga.Widget) -> None:
+    def goto_user_box_btn_handler(self, widget: toga.Widget) -> None:
+        """Go to User box, button handler."""
+        self.main_window.content = self.user_box
+
+    def goto_word_box_btn_handler(self, widget: toga.Widget) -> None:
         """Go to Word box, button handler."""
         self.main_window.content = self.word_box
         self.word_box.fill_table()
-
-    def goto_user_box_handler(self, widget: toga.Widget) -> None:
-        """Go to User box, button handler."""
-        self.main_window.content = self.user_box
 
 
 def main() -> WebSelfEducation:
