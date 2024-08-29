@@ -12,7 +12,7 @@ WORDS_PATH = 'api/v1/word/'
 class WordBox(toga.Box):
     """English-Russian dictionary box."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the English-Russian dictionary box."""
         super().__init__(*args, **kwargs)
 

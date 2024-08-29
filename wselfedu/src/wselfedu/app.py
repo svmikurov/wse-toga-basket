@@ -22,7 +22,7 @@ class WebSelfEducation(toga.App):
         self.main_box = toga.Box(style=Pack(direction=COLUMN))
         self.word_box = WordBox(style=Pack(direction=COLUMN))
 
-        # Construct the main window widgets.
+        # Main box widgets.
         navigation_box = toga.Box()
         self.btn_goto_word_box = toga.Button(
             'Словарь',
@@ -30,12 +30,12 @@ class WebSelfEducation(toga.App):
             style=Pack(flex=1),
         )
 
-        # Build the main box widget DOM.
+        # Main box widget DOM.
         self.main_box.add(
-            navigation_box
+            navigation_box,
         )
         navigation_box.add(
-            self.btn_goto_word_box
+            self.btn_goto_word_box,
         )
 
         # Construct and show the populated main window.
