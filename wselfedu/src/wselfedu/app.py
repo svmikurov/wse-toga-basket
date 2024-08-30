@@ -5,7 +5,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN
 
 from wselfedu.boxes.base import ColumnFlexBox
-from wselfedu.boxes.user import UserBox
+from wselfedu.boxes.user import LoginBox, UserBox
 from wselfedu.boxes.word import WordBox
 
 

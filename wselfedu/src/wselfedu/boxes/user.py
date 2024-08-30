@@ -87,6 +87,59 @@ class UserRegistrationBox(toga.Box):
                 title_error, 'Неизвестная ошибка, попробуйте еще раз'
             )
 
+    def goto_user_box_btn_handler(self, widget: Widget) -> None:
+        """Go to User Profile box, button handler."""
+        self.app.main_window.content = self.app.user_box
+
+class LoginBox(toga.Box):
+    """Log in box."""
+
+    def __init__(self) -> None:
+        """Construct the Log in box."""
+        login_box_style = Pack(direction=COLUMN)
+        super().__init__(style=login_box_style)
+
+        # Log in box widgets.
+        login_box_label = toga.Label(
+            'Вход в приложение',
+        )
+        self.username_input = toga.TextInput(
+            placeholder='Введите имя',
+        )
+        self.password_input = toga.PasswordInput(
+            placeholder='Введите пароль',
+        )
+        btn_submit = toga.Button(
+            'Войти',
+            on_press=self.login_submit_btn_handler,
+            style=Pack(flex=1),
+        )
+        btn_goto_user_box = toga.Button(
+            'Профиль',
+            on_press=self.goto_user_box_btn_handler,
+            style=Pack(flex=1),
+        )
+
+        # Log in box widget DOM.
+        self.add(
+            btn_goto_user_box,
+            login_box_label,
+            self.username_input,
+            self.password_input,
+            btn_submit,
+        )
+
+    def login_submit_btn_handler(self, widget: Widget) -> None:
+        """Submit log in, button handler."""
+        user_login_data = {
+            'username': self.username_input.value,
+            'password': self.password_input.value,
+        }
+
+    def goto_user_box_btn_handler(self, widget: Widget) -> None:
+        """Go to User Profile box, button handler."""
+        self.app.main_window.content = self.app.user_box
+
 
 class UserBox(toga.Box):
     """User box."""
@@ -97,9 +150,15 @@ class UserBox(toga.Box):
 
         # User box widgets.
         self.user_registration_box = UserRegistrationBox()
+        self.login_box = LoginBox()
         btn_goto_main_box = toga.Button(
             'На главную',
             on_press=self.goto_main_box_btn_handler,
+            style=Pack(flex=1),
+        )
+        btn_login_box = toga.Button(
+            'Войти в приложение',
+            on_press=self.goto_login_box_btn_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_registration_box = toga.Button(
@@ -120,6 +179,7 @@ class UserBox(toga.Box):
         pair_split_box.add(left_split_box, right_split_box)
         left_split_box.add(
             btn_goto_main_box,
+            btn_login_box,
         )
         right_split_box.add(
             btn_goto_user_registration_box,
@@ -134,3 +194,7 @@ class UserBox(toga.Box):
     ) -> None:
         """Go to User Registration box, button handler."""
         self.app.main_window.content = self.user_registration_box
+
+    def goto_login_box_btn_handler(self, widget: Widget) -> None:
+        """Go to Log in box, button handler."""
+        self.app.main_window.content = self.login_box
