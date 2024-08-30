@@ -61,12 +61,12 @@ class WebSelfEducation(toga.App):
         self.main_window.content = self.main_box
         self.main_window.show()
 
-    def goto_main_box_btn_handler(self, widget: toga.Widget) -> None:
+    def goto_main_box_btn_handler(self) -> None:
         """Go to Main box, button handler."""
         self.main_window.content = self.main_box
 
     def goto_user_box_btn_handler(self, widget: toga.Widget) -> None:
-        """Go to User box, button handler."""
+        """Go to User Profile box, button handler."""
         self.main_window.content = self.user_box
 
     def goto_word_box_btn_handler(self, widget: toga.Widget) -> None:

@@ -1,6 +1,7 @@
 """User boxes."""
 
 import toga
+from toga import Widget
 from toga.style import Pack
 from toga.widgets.base import StyleT
 from travertino.constants import COLUMN
@@ -34,21 +35,27 @@ class UserRegistrationBox(toga.Box):
         self.password_input = toga.PasswordInput(
             placeholder='Введите пароль',
         )
-        btn_registrate_user = toga.Button(
+        btn_registration_submit = toga.Button(
             'Зарегистрироваться',
-            on_press=self.registrate_user_btn_handler,
+            on_press=self.registration_submit_btn_handler,
+            style=Pack(flex=1),
+        )
+        btn_goto_user_box = toga.Button(
+            'Профиль',
+            on_press=self.goto_user_box_btn_handler,
             style=Pack(flex=1),
         )
 
         # User Registration box widget DOM.
         self.add(
+            btn_goto_user_box,
             user_registration_box_label,
             self.username_input,
             self.password_input,
-            btn_registrate_user,
+            btn_registration_submit,
         )
 
-    def registrate_user_btn_handler(self, widget: toga.Widget) -> None:
+    def registration_submit_btn_handler(self, widget: Widget) -> None:
         """Registrate user, button handler.
 
         Displays a user registration check dialog box.
@@ -57,39 +64,41 @@ class UserRegistrationBox(toga.Box):
             'username': self.username_input.value,
             'password': self.password_input.value,
         }
-        title_error = 'Регистрация не закончена:'
-        first_massage_index = 0
 
         # Gets the response to the API request.
         response = send_post_request(
             path=USER_REGISTRATION_SCHEMA_PATH,
             payload=user_registration_data,
         )
-        id_response = response.get('id')
+        user_id_response = response.get('id')
         username_response = response.get('username')
         password_response = response.get('password')
 
         # Displays a user registration check dialog box.
-        if id_response:
+        first_msg_index = 0
+        if user_id_response:
             self.app.main_window.info_dialog(
                 'Регистрация завершена', 'Поздравляю!'
             )
+            self.app.goto_main_box_btn_handler()
         elif username_response:
             self.app.main_window.info_dialog(
-                title_error, username_response[first_massage_index]
+                'Поле "Введите имя"', username_response[first_msg_index]
             )
         elif password_response:
             self.app.main_window.info_dialog(
-                title_error, password_response[first_massage_index]
+                'Поле "Введите пароль"', password_response[first_msg_index]
             )
         else:
             self.app.main_window.info_dialog(
-                title_error, 'Неизвестная ошибка, попробуйте еще раз'
+                'Регистрация не закончена:',
+                'Неизвестная ошибка, попробуйте еще раз'
             )
 
     def goto_user_box_btn_handler(self, widget: Widget) -> None:
         """Go to User Profile box, button handler."""
         self.app.main_window.content = self.app.user_box
+
 
 class LoginBox(toga.Box):
     """Log in box."""
@@ -142,15 +151,18 @@ class LoginBox(toga.Box):
 
 
 class UserBox(toga.Box):
-    """User box."""
+    """User Profile box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the User Box."""
         super().__init__(*args, **kwargs)
 
-        # User box widgets.
+        # Initialize the box widgets.
         self.user_registration_box = UserRegistrationBox()
         self.login_box = LoginBox()
+
+        # User box widgets.
+        user_box_label = toga.Label('Профиль пользователя')
         btn_goto_main_box = toga.Button(
             'На главную',
             on_press=self.goto_main_box_btn_handler,
@@ -174,6 +186,7 @@ class UserBox(toga.Box):
 
         # Word box widget DOM.
         self.add(
+            user_box_label,
             pair_split_box,
         )
         pair_split_box.add(left_split_box, right_split_box)
@@ -185,13 +198,11 @@ class UserBox(toga.Box):
             btn_goto_user_registration_box,
         )
 
-    def goto_main_box_btn_handler(self, widget: toga.Widget) -> None:
+    def goto_main_box_btn_handler(self, widget: Widget) -> None:
         """Go to Main box, button handler."""
         self.app.main_window.content = self.app.main_box
 
-    def goto_user_registration_box_btn_handler(
-        self, widget: toga.Widget
-    ) -> None:
+    def goto_user_registration_box_btn_handler(self, widget: Widget) -> None:
         """Go to User Registration box, button handler."""
         self.app.main_window.content = self.user_registration_box
 
