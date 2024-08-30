@@ -13,8 +13,9 @@ FIELDS = {
     'word_eng': 'Слово по-русски',
     'word_rus': 'Слово по-английски',
 }
-"""Word input fields (`dict[str, str]`).
+"""Word input field labels (`dict[str, str]`).
 """
+
 
 class CreateWordBox(toga.Box):
     """Create Word Box."""
@@ -29,7 +30,7 @@ class CreateWordBox(toga.Box):
         self.eng_word_input = toga.TextInput(placeholder=FIELDS['word_eng'])
         self.rus_word_input = toga.TextInput(placeholder=FIELDS['word_rus'])
         btn_create_word_submit = toga.Button(
-            text='Добавить', on_press=self.create_word_btn_handler
+            text='Добавить', on_press=self.create_word_handler
         )
 
         # Create Word box widget DOM.
@@ -41,7 +42,7 @@ class CreateWordBox(toga.Box):
         )
         self.eng_word_input.focus()
 
-    def create_word_btn_handler(self, widget: Widget) -> None:
+    def create_word_handler(self, widget: Widget) -> None:
         """Add translation of word to English-Russian dictionary."""
         word_translation = {
             'word_eng': self.eng_word_input.value,
@@ -55,8 +56,10 @@ class CreateWordBox(toga.Box):
         # The message about the result of adding a word is displayed
         # in the box message label.
         if is_success:
-            msg = (f'Добавлено слово: "{self.eng_word_input.value}"'
-                   f' - "{self.rus_word_input.value}"')
+            msg = (
+                f'Добавлено слово: "{self.eng_word_input.value}"'
+                f' - "{self.rus_word_input.value}"'
+            )
             self.eng_word_input.value = None
             self.rus_word_input.value = None
         else:
@@ -86,7 +89,7 @@ class WordBox(toga.Box):
         # Box buttons.
         btn_create = toga.Button(
             'Добавить',
-            on_press=self.goto_create_word_btn_handler,
+            on_press=self.goto_create_word_handler,
             style=Pack(flex=1),
         )
         btn_update = toga.Button(
@@ -126,19 +129,19 @@ class WordBox(toga.Box):
         )
 
     # Button callback functions.
-    def goto_create_word_btn_handler(self, widget: Widget) -> None:
+    def goto_create_word_handler(self, widget: Widget) -> None:
         """Add word to dictionary, button handler."""
         self.app.main_window.content = self.create_word_box
 
-    def update_word_handler(self, widget: toga.Widget) -> None:
+    def update_word_handler(self, widget: Widget) -> None:
         """Update word, button handler."""
         pass
 
-    def delete_word_handler(self, widget: toga.Widget) -> None:
+    def delete_word_handler(self, widget: Widget) -> None:
         """Delete word, button handler."""
         pass
 
-    def goto_main_box_handler(self, widget: toga.Widget) -> None:
+    def goto_main_box_handler(self, widget: Widget) -> None:
         """Go to Main box, button handler."""
         self.app.main_window.content = self.app.main_box
 

@@ -37,12 +37,12 @@ class UserRegistrationBox(toga.Box):
         )
         btn_registration_submit = toga.Button(
             'Зарегистрироваться',
-            on_press=self.registration_submit_btn_handler,
+            on_press=self.submit_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_box = toga.Button(
             'Профиль',
-            on_press=self.goto_user_box_btn_handler,
+            on_press=self.goto_user_box_handler,
             style=Pack(flex=1),
         )
 
@@ -55,8 +55,8 @@ class UserRegistrationBox(toga.Box):
             btn_registration_submit,
         )
 
-    def registration_submit_btn_handler(self, widget: Widget) -> None:
-        """Registrate user, button handler.
+    def submit_handler(self, widget: Widget) -> None:
+        """Submit registrate user, button handler.
 
         Displays a user registration check dialog box.
         """
@@ -80,7 +80,7 @@ class UserRegistrationBox(toga.Box):
             self.app.main_window.info_dialog(
                 'Регистрация завершена', 'Поздравляю!'
             )
-            self.app.goto_main_box_btn_handler()
+            self.app.goto_main_box_handler()
         elif username_response:
             self.app.main_window.info_dialog(
                 'Поле "Введите имя"', username_response[first_msg_index]
@@ -92,10 +92,10 @@ class UserRegistrationBox(toga.Box):
         else:
             self.app.main_window.info_dialog(
                 'Регистрация не закончена:',
-                'Неизвестная ошибка, попробуйте еще раз'
+                'Неизвестная ошибка, попробуйте еще раз',
             )
 
-    def goto_user_box_btn_handler(self, widget: Widget) -> None:
+    def goto_user_box_handler(self, widget: Widget) -> None:
         """Go to User Profile box, button handler."""
         self.app.main_window.content = self.app.user_box
 
@@ -120,12 +120,12 @@ class LoginBox(toga.Box):
         )
         btn_submit = toga.Button(
             'Войти',
-            on_press=self.login_submit_btn_handler,
+            on_press=self.login_submit_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_box = toga.Button(
             'Профиль',
-            on_press=self.goto_user_box_btn_handler,
+            on_press=self.goto_user_box_handler,
             style=Pack(flex=1),
         )
 
@@ -138,14 +138,14 @@ class LoginBox(toga.Box):
             btn_submit,
         )
 
-    def login_submit_btn_handler(self, widget: Widget) -> None:
+    def login_submit_handler(self, widget: Widget) -> None:
         """Submit log in, button handler."""
-        user_login_data = {
+        self.user_login_data = {
             'username': self.username_input.value,
             'password': self.password_input.value,
         }
 
-    def goto_user_box_btn_handler(self, widget: Widget) -> None:
+    def goto_user_box_handler(self, widget: Widget) -> None:
         """Go to User Profile box, button handler."""
         self.app.main_window.content = self.app.user_box
 
@@ -165,17 +165,17 @@ class UserBox(toga.Box):
         user_box_label = toga.Label('Профиль пользователя')
         btn_goto_main_box = toga.Button(
             'На главную',
-            on_press=self.goto_main_box_btn_handler,
+            on_press=self.goto_main_box_handler,
             style=Pack(flex=1),
         )
         btn_login_box = toga.Button(
             'Войти в приложение',
-            on_press=self.goto_login_box_btn_handler,
+            on_press=self.goto_login_box_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_registration_box = toga.Button(
             'Регистрация',
-            on_press=self.goto_user_registration_box_btn_handler,
+            on_press=self.goto_user_registration_box_handler,
             style=Pack(flex=1),
         )
 
@@ -198,14 +198,14 @@ class UserBox(toga.Box):
             btn_goto_user_registration_box,
         )
 
-    def goto_main_box_btn_handler(self, widget: Widget) -> None:
+    def goto_main_box_handler(self, widget: Widget) -> None:
         """Go to Main box, button handler."""
         self.app.main_window.content = self.app.main_box
 
-    def goto_user_registration_box_btn_handler(self, widget: Widget) -> None:
+    def goto_user_registration_box_handler(self, widget: Widget) -> None:
         """Go to User Registration box, button handler."""
         self.app.main_window.content = self.user_registration_box
 
-    def goto_login_box_btn_handler(self, widget: Widget) -> None:
+    def goto_login_box_handler(self, widget: Widget) -> None:
         """Go to Log in box, button handler."""
         self.app.main_window.content = self.login_box

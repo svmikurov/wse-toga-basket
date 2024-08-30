@@ -5,7 +5,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN
 
 from wselfedu.boxes.base import ColumnFlexBox
-from wselfedu.boxes.user import LoginBox, UserBox
+from wselfedu.boxes.user import UserBox
 from wselfedu.boxes.word import WordBox
 
 
@@ -30,12 +30,12 @@ class WebSelfEducation(toga.App):
         # Main box widgets.
         btn_goto_word_box = toga.Button(
             'Словарь',
-            on_press=self.goto_word_box_btn_handler,
+            on_press=self.goto_word_box_handler,
             style=Pack(flex=1),
         )
         btn_goto_user_box = toga.Button(
             'Профиль',
-            on_press=self.goto_user_box_btn_handler,
+            on_press=self.goto_user_box_handler,
             style=Pack(flex=1),
         )
 
@@ -61,15 +61,15 @@ class WebSelfEducation(toga.App):
         self.main_window.content = self.main_box
         self.main_window.show()
 
-    def goto_main_box_btn_handler(self) -> None:
+    def goto_main_box_handler(self) -> None:
         """Go to Main box, button handler."""
         self.main_window.content = self.main_box
 
-    def goto_user_box_btn_handler(self, widget: toga.Widget) -> None:
+    def goto_user_box_handler(self, widget: toga.Widget) -> None:
         """Go to User Profile box, button handler."""
         self.main_window.content = self.user_box
 
-    def goto_word_box_btn_handler(self, widget: toga.Widget) -> None:
+    def goto_word_box_handler(self, widget: toga.Widget) -> None:
         """Go to Word box, button handler."""
         self.main_window.content = self.word_box
         self.word_box.fill_table()
